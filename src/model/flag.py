@@ -5,5 +5,11 @@ class Flag(BaseModel):
     """User's input flag"""
     _id: int
     name: str
-    flag: str
+    value: str
+    is_private: bool
+
+
+class GetAllFlagsResponse(BaseModel):
+    _id: int
+    name: str
     is_private: bool

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from src.repository import FlagRepo, database
+from src.model import Flag, GetAllFlagsResponse
 
 
 app = FastAPI()
@@ -23,12 +24,12 @@ async def create_flag():
     return {"status": "created"}
 
 
-@app.get("/")
+@app.get("/", response_model=list[GetAllFlagsResponse])
 async def get_all_flags():
     return await FlagRepo.get_all_flags()
 
 
-@app.get("/{flag_name}")
+@app.get("/{flag_name}", response_model=Flag)
 async def get_flag_by_name(flag_name: str):
     # TODO: Add match case
     return await FlagRepo.get_flag_by_name(flag_name)
