@@ -1,4 +1,4 @@
-# CTF SSTI task
+# CTF SQLI task
 
 The application requires Python3.10, packages are mentioned
 in `requirements.txt`
