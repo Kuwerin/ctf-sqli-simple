@@ -2,6 +2,8 @@
 
 __all__ = [
     "Flag",
+    "GetAllFlagsResponse",
 ]
 
-from flag import Flag
+
+from .flag import Flag, GetAllFlagsResponse
