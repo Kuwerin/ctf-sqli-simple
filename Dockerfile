@@ -1,0 +1,13 @@
+FROM python:3.10 AS base
+
+WORKDIR /app
+ENV PYTHONPATH=/app/src
+EXPOSE 5000
+RUN mkdir -p src/
+
+COPY src/ src/
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+ENTRYPOINT ["python", "-u", "-m", "src"]

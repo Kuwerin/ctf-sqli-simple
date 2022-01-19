@@ -1,0 +1,12 @@
+# postgres local dump
+psql_data
+
+# virutalenv
+env
+venv
+
+# python cache
+__pycache__
+
+# JetBrains stuff
+.idea

@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: pgpassword
+      DB_NAME: pgdb
+    restart: always
+    depends_on:
+      - postgres
+    volumes:
+      - ./src:/app/src
+    ports:
+      - "5000:5000"
+
+  postgres:
+    image: postgres:latest
+    hostname: postgres
+    restart: unless-stopped
+    volumes:
+      - ./psql_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pgpassword
+      POSTGRES_DB: pgdb
+
