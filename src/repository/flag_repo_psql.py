@@ -1,6 +1,8 @@
-from .postgres import database
+from databases.backends.postgres import Record
+from typing import Sequence
 from result import Result, Ok, Err
 
+from .postgres import database
 from src.model import GetAllFlagsResponse, Flag
 
 
@@ -14,8 +16,17 @@ class FlagRepo:
             return Err(str(e))
 
     @classmethod
-    async def get_all_flags(cls) -> GetAllFlagsResponse:
-        return await database.fetch_all("SELECT id, name, is_private FROM flag")
+    async def get_all_flags(cls) -> Result[list[GetAllFlagsResponse], str]:
+        try:
+            data: list[Record] = await database.fetch_all("SELECT id, name, is_private FROM flag")
+            flags: list[GetAllFlagsResponse] = []
+            # TODO: try use list comprehensions
+            for record in data:
+                kwargs = dict(zip(record.keys(), record.values()))
+                flags.append(GetAllFlagsResponse(**kwargs))
+            return Ok(flags)
+        except Exception as e:
+            return Err(str(e))
 
     # http://localhost:5000/flag/main-flag' or '1'='1
     @classmethod

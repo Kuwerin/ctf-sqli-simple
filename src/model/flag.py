@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from pydantic.fields import Field
 
 
 class Flag(BaseModel):
@@ -10,6 +11,6 @@ class Flag(BaseModel):
 
 
 class GetAllFlagsResponse(BaseModel):
-    _id: int
+    id: int
     name: str
     is_private: bool

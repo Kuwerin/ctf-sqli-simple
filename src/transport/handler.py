@@ -32,7 +32,12 @@ async def create_flag():
 
 @app.get("/", response_model=list[GetAllFlagsResponse])
 async def get_all_flags():
-    return await FlagRepo.get_all_flags()
+    res = await FlagRepo.get_all_flags()
+    match res:
+        case Ok(value):
+            return value
+        case Err(err):
+            return {"error": err}
 
 
 @app.get("/{flag_name}", response_model=Flag)
