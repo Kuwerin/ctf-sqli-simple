@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from result import Ok, Err
 
 from src.repository import FlagRepo, database
 from src.model import Flag, GetAllFlagsResponse
@@ -20,8 +21,13 @@ async def shutdown():
 @app.post("/")
 async def create_flag():
     # TODO: add duplicate key processing via match case
-    await FlagRepo.create_flag()
-    return {"status": "created"}
+    res = await FlagRepo.create_flag()
+
+    match res:
+        case Ok(value):
+            return {"status": value}
+        case Err(err):
+            return {"error": err}
 
 
 @app.get("/", response_model=list[GetAllFlagsResponse])
