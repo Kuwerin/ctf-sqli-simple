@@ -19,10 +19,8 @@ class FlagRepo:
         try:
             data: list[Record] = await database.fetch_all("SELECT id, name, is_private FROM flag")
             flags: list[GetAllFlagsResponse] = []
-            # TODO: try use list comprehensions
-            for record in data:
-                kwargs = dict(zip(record.keys(), record.values()))
-                flags.append(GetAllFlagsResponse(**kwargs))
+
+            flags = [(GetAllFlagsResponse(**(dict(zip(record.keys(), record.values()))))) for record in data]
             return Ok(flags)
         except Exception as e:
             return Err(str(e))
