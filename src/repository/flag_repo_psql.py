@@ -1,9 +1,8 @@
 from databases.backends.postgres import Record
-from typing import Sequence
 from result import Result, Ok, Err
 
 from .postgres import database
-from src.model import GetAllFlagsResponse, Flag
+from model import GetAllFlagsResponse, Flag
 
 
 class FlagRepo:

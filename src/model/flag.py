@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from pydantic.fields import Field
 
 
 class Flag(BaseModel):
