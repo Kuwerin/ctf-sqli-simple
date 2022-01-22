@@ -1,23 +1,26 @@
+from typing import Sequence
 from databases.backends.postgres import Record
 from result import Result, Ok, Err
+from sqlalchemy.sql.expression import except_
 
-from .postgres import database
-from model import GetAllFlagsResponse, Flag
+from .postgres import cursor
+from model import GetAllFlagsResponse, Flag, CreateFlagRequest
 
 
 class FlagRepo:
     @classmethod
-    async def create_flag(cls) -> Result[Flag, str]:
+    async def create_flag(cls, req: CreateFlagRequest) -> Result[Flag, str]:
         try:
-            await database.execute("INSERT INTO flag (name, flag) VALUES ('tester', 'tested')")
-            return Ok(Flag(_id=0, name="tester", value="tested", is_private=False))
+            user_id = await cursor.execute("INSERT INTO flag (name, flag) VALUES (:name, :value) RETURNING id", req.dict())
+            return Ok(Flag(id=user_id, name=req.name, value=req.value, is_private=False))
         except Exception as e:
             return Err(str(e))
 
     @classmethod
     async def get_all_flags(cls) -> Result[list[GetAllFlagsResponse], str]:
         try:
-            data: list[Record] = await database.fetch_all("SELECT id, name, is_private FROM flag")
+            data: list[Record | Sequence] = await cursor.fetch_all("SELECT id, name, is_private FROM flag")
+
             flags: list[GetAllFlagsResponse] = []
 
             flags = [(GetAllFlagsResponse(**(dict(zip(record.keys(), record.values()))))) for record in data]
@@ -27,5 +30,17 @@ class FlagRepo:
 
     # http://localhost:5000/flag/main-flag' or '1'='1
     @classmethod
-    async def get_flag_by_name(cls, flag_name: str) -> Flag:
-        return await database.fetch_one(f"SELECT * FROM flag WHERE name='{flag_name}' AND is_private=false")
+    async def get_flag_by_name(cls, flag_name: str) -> Result[Flag, str]:
+        print("\n\n\n\n\n\n\n", flag_name)
+        try:
+            flag = await cursor.fetch_one(f"SELECT * FROM flag WHERE name='{flag_name}' AND is_private=false")
+            match flag:
+                case Flag(flag):
+                    return Ok(flag)
+                case None:
+                    raise Exception("no public flags in database")
+
+            return Ok(flag)
+        except Exception as e:
+            print("\n\n\\n\n\n\n\nexception!")
+            return Err(str(e))
