@@ -21,4 +21,4 @@ class Config:
 
 
 cfg = Config()
-database = Database(cfg.get_db_uri())
+cursor = Database(cfg.get_db_uri())
