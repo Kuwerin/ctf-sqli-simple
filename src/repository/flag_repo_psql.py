@@ -28,10 +28,8 @@ class FlagRepo:
         except Exception as e:
             return Err(str(e))
 
-    # http://localhost:5000/flag/main-flag' or '1'='1
     @classmethod
     async def get_flag_by_name(cls, flag_name: str) -> Result[Flag, str]:
-        print("\n\n\n\n\n\n\n", flag_name)
         try:
             flag = await cursor.fetch_one(f"SELECT * FROM flag WHERE name='{flag_name}' AND is_private=false")
             match flag:
@@ -42,5 +40,4 @@ class FlagRepo:
 
             return Ok(flag)
         except Exception as e:
-            print("\n\n\\n\n\n\n\nexception!")
             return Err(str(e))
