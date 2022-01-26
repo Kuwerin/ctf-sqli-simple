@@ -1,7 +1,6 @@
 from typing import Sequence
 from databases.backends.postgres import Record
 from result import Result, Ok, Err
-from sqlalchemy.sql.expression import except_
 
 from .postgres import cursor
 from model import GetAllFlagsResponse, Flag, CreateFlagRequest
