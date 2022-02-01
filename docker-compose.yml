@@ -6,7 +6,7 @@ services:
       DB_HOST: postgres
       DB_USER: postgres
       DB_PASSWORD: pgpassword
-      DB_NAME: pgdb
+      DB_NAME: postgres
     restart: always
     depends_on:
       - postgres
@@ -16,15 +16,14 @@ services:
       - "5000:5000"
 
   postgres:
-    image: postgres:latest
-    hostname: postgres
-    restart: unless-stopped
+    image: postgres:14.1
+    restart: always
     volumes:
-      - ./psql_data:/var/lib/postgresql/data
+      - ./migrations/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pgpassword
-      POSTGRES_DB: pgdb
+      POSTGRES_DB: postgres
 

@@ -14,7 +14,7 @@ class Config:
         self.DB_PASSWORD = environ.get("DB_PASSWORD", "pgpassword")
         self.DB_HOST = environ.get("DB_HOST", "localhost")
 
-        self.DB_NAME = environ.get("DB_NAME", "pgdb")
+        self.DB_NAME = environ.get("DB_NAME", "postgres")
 
     def get_db_uri(self):
         return f"postgresql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:5432/{self.DB_NAME}"

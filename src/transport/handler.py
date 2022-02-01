@@ -1,4 +1,7 @@
+from asyncio import sleep
 from typing import Union
+
+from asyncpg.exceptions import CannotConnectNowError
 from fastapi import FastAPI
 from result import Ok, Err
 
@@ -14,8 +17,11 @@ app = FastAPI()
 
 @app.on_event("startup")
 async def startup():
-    await cursor.connect()
-
+    try:
+        await cursor.connect()
+    except (CannotConnectNowError, ConnectionRefusedError):
+        await sleep(5)
+        await startup()
 
 @app.on_event("shutdown")
 async def shutdown():
