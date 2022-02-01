@@ -2,8 +2,8 @@ DROP TABLE IF EXISTS flag IF;
 
 CREATE TABLE flag (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR(30),
-    value VARCHAR(30),
+    name VARCHAR(300),
+    value VARCHAR(300),
     is_private BOOLEAN NOT NULL DEFAULT false,
     PRIMARY KEY (id, name)
 );
