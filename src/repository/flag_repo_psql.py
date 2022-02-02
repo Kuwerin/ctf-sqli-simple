@@ -10,7 +10,7 @@ class FlagRepo:
     @classmethod
     async def create_flag(cls, req: CreateFlagRequest) -> Result[Flag, str]:
         try:
-            user_id = await cursor.execute("INSERT INTO flag (name, flag) VALUES (:name, :value) RETURNING id", req.dict())
+            user_id = await cursor.execute("INSERT INTO flag (name, value) VALUES (:name, :value) RETURNING id", req.dict())
             return Ok(Flag(id=user_id, name=req.name, value=req.value, is_private=False))
         except Exception as e:
             return Err(str(e))
