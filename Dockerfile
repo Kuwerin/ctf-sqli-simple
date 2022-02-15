@@ -7,7 +7,7 @@ RUN mkdir -p src/
 
 COPY src/ src/
 COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir --upgrade pip \
+RUN pip install --default-timeout=1000 --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 
 ENTRYPOINT ["python", "-u", "-m", "src"]

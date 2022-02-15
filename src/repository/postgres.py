@@ -5,7 +5,7 @@ from databases import Database
 
 from pydantic_settings import load_settings
 from settings import AppSettings
-repository_vars= load_settings(AppSettings)
+repository_vars= load_settings(cls=AppSettings, load_env=True)
 
 class Config:
     """
@@ -30,7 +30,7 @@ class Config:
         self.name = repository_vars.repository.name
 
     def get_db_uri(self):
-        return f"postgresql://{self.user}:{self.repository_vars.password}@{self.repository_vars.host}:5432/{self.repository_vars.name}"
+        return f"postgresql://{self.user}:{self.password}@{self.host}:5432/{self.name}"
 
 
 cfg = Config()

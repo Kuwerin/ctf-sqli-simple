@@ -3,10 +3,11 @@ services:
   app:
     build: .
     environment:
-      DB_HOST: postgres
-      DB_USER: postgres
-      DB_PASSWORD: pgpassword
-      DB_NAME: postgres
+      APP_REPOSITORY_HOST: postgres
+      APP_REPOSITORY_USER: postgres
+      APP_REPOSITORY_PASSWORD: pgpassword
+      APP_REPOSITORY_NAME: postgres
+      APP_TRANSPORT_PORT: 5000
     restart: always
     depends_on:
       - postgres
