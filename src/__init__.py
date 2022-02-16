@@ -4,4 +4,6 @@ __all__ = [
     "transport",
     "repository",
     "model",
+    "app",
+    "settings"
 ]
