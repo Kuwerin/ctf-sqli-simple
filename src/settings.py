@@ -12,7 +12,7 @@ class RepositorySettings(BaseSettingsModel):
     user: Optional[str] = "postgres"
     password: Optional[str] = "pgpassword"
     host: Optional[str] = "localhost"
-    name: Optional[str] = "postgres"
+    database: Optional[str] = "postgres"
 
 class AppSettings(BaseSettingsModel):
     transport: TransportSettings

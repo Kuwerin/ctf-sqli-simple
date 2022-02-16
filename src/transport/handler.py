@@ -5,7 +5,7 @@ from asyncpg.exceptions import CannotConnectNowError
 from fastapi import FastAPI
 from result import Ok, Err
 
-from repository import FlagRepo, cursor
+from repository import FlagRepo
 from model import Flag, GetAllFlagsResponse, CreateFlagRequest
 from app import application
 
@@ -14,7 +14,6 @@ __all__ = [
         ]
 
 transport = FastAPI()
-
 
 @transport.on_event("startup")
 async def startup():
@@ -26,7 +25,7 @@ async def startup():
 
 @transport.on_event("shutdown")
 async def shutdown():
-    await cursor.disconnect()
+    await application.repository.disconnect()
 
 
 @transport.post("/", response_model=Union[Flag, dict[str, str]])

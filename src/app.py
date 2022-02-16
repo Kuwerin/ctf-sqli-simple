@@ -22,7 +22,7 @@ class Application:
 
     def _get_db_uri(self) -> str:
         settings = self.settings.repository
-        return f"postgresql://{settings.user}:{settings.password}@{settings.host}:5432/{settings.name}"
+        return f"postgresql://{settings.user}:{settings.password}@{settings.host}:5432/{settings.database}"
 
     def run(self, transport: FastAPI) -> Optional[NoReturn]:
         settings = self.settings.transport
