@@ -1,4 +1,5 @@
 from typing import Sequence
+
 from databases.backends.postgres import Record
 from result import Result, Ok, Err
 
