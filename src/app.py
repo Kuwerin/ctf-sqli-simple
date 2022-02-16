@@ -3,7 +3,6 @@ from typing import NoReturn, Optional
 
 from databases.core import Database
 from fastapi import FastAPI
-from pydantic import BaseModel
 import uvicorn
 
 from settings import AppSettings
