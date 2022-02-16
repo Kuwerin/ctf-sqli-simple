@@ -8,6 +8,7 @@ services:
       APP_REPOSITORY_PASSWORD: pgpassword
       APP_REPOSITORY_NAME: postgres
       APP_TRANSPORT_PORT: 5000
+      APP_TRANSPORT_HOST: "0.0.0.0"
     restart: always
     depends_on:
       - postgres
@@ -27,4 +28,3 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pgpassword
       POSTGRES_DB: postgres
-

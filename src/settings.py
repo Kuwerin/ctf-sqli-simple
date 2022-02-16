@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettingsModel
 
 
 class TransportSettings(BaseSettingsModel):
-    host: Optional[str] = "localhost"
+    host: Optional[str] = "0.0.0.0"
     port: Optional[int] = 5000
 
 class RepositorySettings(BaseSettingsModel):
