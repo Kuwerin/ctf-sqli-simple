@@ -2,9 +2,10 @@ from typing import Sequence
 from databases.backends.postgres import Record
 from result import Result, Ok, Err
 
-from .postgres import cursor
+from app import application
 from model import GetAllFlagsResponse, Flag, CreateFlagRequest
 
+cursor = application.repository
 
 class FlagRepo:
     @classmethod
