@@ -1,5 +1,4 @@
 from typing import Optional
-from unicodedata import name
 
 from pydantic_settings import BaseSettingsModel, LoadingError, load_settings
 

@@ -18,14 +18,14 @@ transport = FastAPI()
 @transport.on_event("startup")
 async def startup():
     try:
-        await application.repository.connect()
+        await application.db_connect()
     except (CannotConnectNowError, ConnectionRefusedError):
         await sleep(5)
         await startup()
 
 @transport.on_event("shutdown")
 async def shutdown():
-    await application.repository.disconnect()
+    await application.db_disconnect()
 
 
 @transport.post("/", response_model=Union[Flag, dict[str, str]])
