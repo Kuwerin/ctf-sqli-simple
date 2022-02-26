@@ -1,7 +1,7 @@
 from typing import Sequence
 
-from aiopg.connection import Cursor
-from databases.backends.postgres import Record
+#from aiopg.connection import Cursor
+#from databases.backends.postgres import Record
 from result import Result, Ok, Err
 
 from app import application
@@ -29,8 +29,15 @@ class FlagRepo:
 
             flags: list[GetAllFlagsResponse] = []
 
-            flags = [GetAllFlagsResponse.from_row(record) for record in data]
-            return Ok(flags)
+            async def get_flags(data):
+                for record in data:
+                    yield GetAllFlagsResponse.from_row(record)
+
+            #flags = [GetAllFlagsResponse.from_row(record) for record in data]
+
+            flags = get_flags(data)
+            async for flag in flags:
+                return Ok(flag)
         except Exception as e:
             return Err(str(e))
 
