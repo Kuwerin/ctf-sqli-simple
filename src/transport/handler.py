@@ -40,12 +40,13 @@ async def create_flag(flag: CreateFlagRequest):
 
 @transport.get("/", response_model=Union[list[GetAllFlagsResponse], dict[str, str]])
 async def get_all_flags():
-    res = await FlagRepo.get_all_flags()
-    match res:
-        case Ok(value):
-            return value
-        case Err(err):
-            return {"error": err}
+    res = FlagRepo.get_all_flags()
+    async for result in res:
+        match result:
+            case Ok(value):
+                return value
+            case Err(err):
+                return {"error": err}
 
 
 @transport.get("/{flag_name}", response_model=Union[Flag, dict[str, str]])

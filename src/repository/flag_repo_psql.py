@@ -27,19 +27,13 @@ class FlagRepo:
 
             data = await cursor.fetchall()
 
-            flags: list[GetAllFlagsResponse] = []
-
-            async def get_flags(data):
-                for record in data:
-                    yield GetAllFlagsResponse.from_row(record)
+            #flags: list[GetAllFlagsResponse] = []
 
             #flags = [GetAllFlagsResponse.from_row(record) for record in data]
-
-            flags = get_flags(data)
-            async for flag in flags:
-                return Ok(flag)
+            for record in data:
+                yield Ok(GetAllFlagsResponse.from_row(record))
         except Exception as e:
-            return Err(str(e))
+            yield Err(str(e))
 
     @classmethod
     async def get_flag_by_name(cls, flag_name: str) -> Result[Flag, str]:
