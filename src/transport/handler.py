@@ -38,7 +38,7 @@ async def create_flag(flag: CreateFlagRequest):
             return {"error": err}
 
 
-@transport.get("/", response_model=Union[list[GetAllFlagsResponse], dict[str, str]])
+@transport.get("/", response_model=list[GetAllFlagsResponse])
 async def get_all_flags():
     return [result async for result in FlagRepo.get_all_flags()]
 

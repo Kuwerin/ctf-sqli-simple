@@ -22,7 +22,7 @@ class FlagRepo:
         cursor = await application.get_db_cursor()
         await cursor.execute("SELECT id, name, is_private FROM flag")
 
-        data = await cursor.fetchall()
+        data: list[tuple] = await cursor.fetchall()
 
         for record in data:
             yield GetAllFlagsResponse.from_row(record)
