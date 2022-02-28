@@ -1,7 +1,5 @@
-from typing import Sequence
+from typing import AsyncGenerator
 
-#from aiopg.connection import Cursor
-#from databases.backends.postgres import Record
 from result import Result, Ok, Err
 
 from app import application
@@ -20,20 +18,15 @@ class FlagRepo:
             return Err(str(e))
 
     @classmethod
-    async def get_all_flags(cls) -> Result[list[GetAllFlagsResponse], str]:
+    async def get_all_flags(cls) -> AsyncGenerator[GetAllFlagsResponse, None]:
         cursor = await application.get_db_cursor()
-        try:
-            await cursor.execute("SELECT id, name, is_private FROM flag")
+        await cursor.execute("SELECT id, name, is_private FROM flag")
 
-            data = await cursor.fetchall()
+        data = await cursor.fetchall()
 
-            #flags: list[GetAllFlagsResponse] = []
+        for record in data:
+            yield GetAllFlagsResponse.from_row(record)
 
-            #flags = [GetAllFlagsResponse.from_row(record) for record in data]
-            for record in data:
-                yield Ok(GetAllFlagsResponse.from_row(record))
-        except Exception as e:
-            yield Err(str(e))
 
     @classmethod
     async def get_flag_by_name(cls, flag_name: str) -> Result[Flag, str]:
